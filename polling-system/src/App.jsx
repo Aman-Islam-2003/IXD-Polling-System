@@ -722,7 +722,7 @@ function VotingInterface({
         {pollStarted && (
           <button
             onClick={onViewResults}
-            className="absolute top-4 right-4 py-2 px-4 bg-white text-gray-700 rounded-lg shadow-md transition-all duration-300 hover:bg-gray-100 hover:shadow-lg active:scale-95 text-sm font-medium z-10"
+            className="absolute top-4 right-4 py-2 px-4 bg-white text-gray-700 rounded-lg shadow-md transition-all duration-300 hover:bg-gray-200 hover:shadow-lg active:scale-95 text-sm font-medium z-10 cursor-pointer"
           >
             See Results
           </button>
@@ -919,7 +919,7 @@ function IPadInterface({
         <div className="mt-6 flex justify-center animate-fadeInUp">
           <button
             onClick={onReturnToPoll}
-            className="py-2 px-6 bg-[#677C9B] text-white rounded-md transition-all duration-300 hover:bg-opacity-90 hover:shadow-lg active:scale-95 font-medium"
+            className="py-2 px-6 hover:bg-opacity-90 font-medium  bg-[#677C9B] text-white rounded-lg transition-all duration-300 hover:bg-[#4a6081] shadow-xs hover:shadow-[0_8px_20px_rgba(0,0,0,0.3)] active:scale-95 text-lg cursor-pointer"
           >
             Return to Poll {isPollInProgress ? `(Question ${currentIndex + 1})` : ''}
           </button>
@@ -1006,7 +1006,7 @@ function CompletionScreen({ bgColor, isTransitioning, onViewResults }) {
           <div className="flex justify-center">
             <button
               onClick={onViewResults}
-              className="py-2 px-6 bg-[#677C9B] text-white rounded-md transition-all duration-300 hover:bg-opacity-90 hover:shadow-lg active:scale-95 font-medium"
+              className="py-2 px-6  font-medium cursor-pointer  bg-[#677C9B] text-white rounded-lg transition-all duration-300 hover:bg-[#4a6081] shadow-xs hover:shadow-[0_8px_20px_rgba(0,0,0,0.3)] active:scale-95 text-lg"
             >
               See Results
             </button>
