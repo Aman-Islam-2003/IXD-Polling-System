@@ -36,26 +36,27 @@ function PollForm() {
 
   const handleVote = async (skill, voteType) => {
     setIsTransitioning(true);
-
-    setPollData((prevData) => {
-      const newData = { ...prevData };
-      newData[skill] = {
-        ...newData[skill],
-        [voteType]: 5, // Set to 5 for the selected option
-        [voteType === "selfTaught" ? "schoolTaught" : "selfTaught"]: 0 // Reset the other option
-      };
-      return newData;
-    });
-
+  
+    // Calculate the new poll data
+    const updatedPollData = { ...pollData };
+    updatedPollData[skill] = {
+      ...updatedPollData[skill],
+      [voteType]: 5,
+      [voteType === "selfTaught" ? "schoolTaught" : "selfTaught"]: 0
+    };
+  
+    // Update the state
+    setPollData(updatedPollData);
+  
     if (currentSkillIndex < skills.length - 1) {
       setTimeout(() => {
         setCurrentSkillIndex(currentSkillIndex + 1);
         setIsTransitioning(false);
       }, 500);
     } else {
-      // This is the last question, submit the poll
+      // This is the last question, submit the poll with the updated data
       try {
-        await submitPollResponses(pollData);
+        await submitPollResponses(updatedPollData); // ← Use the calculated data!
         setTimeout(() => {
           setPollSubmitted(true);
           setIsTransitioning(false);
@@ -67,24 +68,25 @@ function PollForm() {
     }
   };
 
+
   const skipQuestion = () => {
     setIsTransitioning(true);
-
-    // Reset both values for this skill
-    setPollData((prevData) => {
-      const newData = { ...prevData };
-      newData[skills[currentSkillIndex]] = { selfTaught: 0, schoolTaught: 0 };
-      return newData;
-    });
-
+  
+    // Calculate the updated poll data
+    const updatedPollData = { ...pollData };
+    updatedPollData[skills[currentSkillIndex]] = { selfTaught: 0, schoolTaught: 0 };
+  
+    // Update the state
+    setPollData(updatedPollData);
+  
     if (currentSkillIndex < skills.length - 1) {
       setTimeout(() => {
         setCurrentSkillIndex(currentSkillIndex + 1);
         setIsTransitioning(false);
       }, 500);
     } else {
-      // This is the last question, submit the poll
-      submitPollResponses(pollData)
+      // This is the last question, submit the poll with the updated data
+      submitPollResponses(updatedPollData) // ← Use the calculated data!
         .then(() => {
           setTimeout(() => {
             setPollSubmitted(true);
@@ -97,6 +99,70 @@ function PollForm() {
         });
     }
   };
+  
+  // const handleVote = async (skill, voteType) => {
+  //   setIsTransitioning(true);
+
+  //   setPollData((prevData) => {
+  //     const newData = { ...prevData };
+  //     newData[skill] = {
+  //       ...newData[skill],
+  //       [voteType]: 5, // Set to 5 for the selected option
+  //       [voteType === "selfTaught" ? "schoolTaught" : "selfTaught"]: 0 // Reset the other option
+  //     };
+  //     return newData;
+  //   });
+
+  //   if (currentSkillIndex < skills.length - 1) {
+  //     setTimeout(() => {
+  //       setCurrentSkillIndex(currentSkillIndex + 1);
+  //       setIsTransitioning(false);
+  //     }, 500);
+  //   } else {
+  //     // This is the last question, submit the poll
+  //     try {
+  //       await submitPollResponses(pollData);
+  //       setTimeout(() => {
+  //         setPollSubmitted(true);
+  //         setIsTransitioning(false);
+  //       }, 500);
+  //     } catch (error) {
+  //       setSubmissionError("Failed to submit poll. Please try again.");
+  //       setIsTransitioning(false);
+  //     }
+  //   }
+  // };
+
+  // const skipQuestion = () => {
+  //   setIsTransitioning(true);
+
+  //   // Reset both values for this skill
+  //   setPollData((prevData) => {
+  //     const newData = { ...prevData };
+  //     newData[skills[currentSkillIndex]] = { selfTaught: 0, schoolTaught: 0 };
+  //     return newData;
+  //   });
+
+  //   if (currentSkillIndex < skills.length - 1) {
+  //     setTimeout(() => {
+  //       setCurrentSkillIndex(currentSkillIndex + 1);
+  //       setIsTransitioning(false);
+  //     }, 500);
+  //   } else {
+  //     // This is the last question, submit the poll
+  //     submitPollResponses(pollData)
+  //       .then(() => {
+  //         setTimeout(() => {
+  //           setPollSubmitted(true);
+  //           setIsTransitioning(false);
+  //         }, 500);
+  //       })
+  //       .catch((error) => {
+  //         setSubmissionError("Failed to submit poll. Please try again.");
+  //         setIsTransitioning(false);
+  //       });
+  //   }
+  // };
 
   const navigateQuestion = (direction) => {
     setIsTransitioning(true);
